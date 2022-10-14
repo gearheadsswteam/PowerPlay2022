@@ -1,0 +1,7 @@
+1. Downloaded FTC v8.0 from https://github.com/FIRST-Tech-Challenge/FtcRobotController.git
+2. Merged RoadRunner from https://learnroadrunner.com/installing.html#method-2-installing-rr-on-your-project
+3. Updated TeamCode / build.gradle for OpenCV dependency
+4. Copied three files from Freight Frenzy related to odometry to teamcode/drive
+      - DriveConstants
+      - SampleMecannumDrive
+      - StandardTrackingWheelLocalizer

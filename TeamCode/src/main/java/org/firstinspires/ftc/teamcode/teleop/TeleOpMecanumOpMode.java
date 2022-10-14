@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,15 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.ValueStorage;
-import org.firstinspires.ftc.teamcode.autonomous.AbstractAutonomousOpModeRR;
-import org.firstinspires.ftc.teamcode.drive.PoseStorage;
+
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.mecanum.MecanumDrive;
+import org.firstinspires.ftc.teamcode.robot.ValueStorage;
 
 
 @TeleOp(name = "TeleOpTwoDriver", group = "TeleOp")
-@Disabled
+//@Disabled
 public class TeleOpMecanumOpMode extends LinearOpMode {
 
     //Reference for Josh's code: https://docs.google.com/document/d/1nJ-Rro6GFyXt1vbN69c-Y5u8U8c_oHpr-_ET3eomAbA/edit
@@ -58,10 +56,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             dampenSpeed();
             //Move The robot
             moveRobot();
-            operateIntake();
-            operateDuckSpinner();
-            operateCapstoneArmTeleop();
-            operateDelivery();
+
         }
     }
 
@@ -123,11 +118,11 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         double tempSidePower = gamepad1.left_stick_x;
 
         //Adjust X & Y power based on FOV
-        sidePower = tempForwardPower * Math.cos(angle) + tempSidePower * Math.sin(angle);
-        forwardPower = -tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
+        sidePower = tempForwardPower * Math.cos(angle) - tempSidePower * Math.sin(angle);
+        forwardPower = -tempForwardPower * Math.sin(angle) - tempSidePower * Math.cos(angle);
 
         //Read turn commands
-        turn = gamepad1.right_stick_x;
+        turn = -gamepad1.right_stick_x;
     }
 
     /**
@@ -145,74 +140,6 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         turn = turn * (1 - speedDamper);
     }
 
-    private void operateIntake() {
-        if (gamepad1.a && !robot.cargoDetector.isCargoBucketFull()) {
-            robot.intakesystem.startInTake();
-        } else if (gamepad1.b) {
-            robot.intakesystem.stopInTake();
-        } else if (gamepad1.x) {
-            robot.intakesystem.startReverseInTake();
-        }
-        if (robot.cargoDetector.isCargoBucketFull()) {
-            robot.intakesystem.stopInTake();
-            //robot.intakesystem.startReverseInTake();
-        }
-        if (gamepad1.y) {
-            robot.intakesystem.toggleIntakeOpenClosePosition();
-        }
-    }
-
-
-    private void operateDelivery() {
-        if (gamepad2.x) {
-            robot.deliveryArmSystem.setLiftElevatorLow();
-        } else if (gamepad2.a) {
-            robot.deliveryArmSystem.setLiftElevatorMedium();
-        } else if (gamepad2.b) {
-            robot.deliveryArmSystem.setLiftElevatorHigh();
-        }
-
-        if (gamepad2.y) {
-            robot.deliveryArmSystem.moveBucket();
-        }
-    }
-
-    private void operateDuckSpinner() {
-        if (gamepad2.right_trigger > 0.1) {
-            robot.carouselRotationSystem.rotateClockWise();
-        } else if (gamepad2.left_trigger > 0.1) {
-            robot.carouselRotationSystem.rotateAntiClockWise();
-        } else {
-            robot.carouselRotationSystem.stop();
-        }
-    }
-
-    /**
-     * Operates the Capstone arm via a efficient state machine
-     */
-    private void operateCapstoneArm() {
-        if (gamepad1.y && capstoneArmTriggerUp) {
-            capstoneArmState = (capstoneArmState + 1) % 4;
-            capstoneArmTriggerUp = false;
-        } else if (!gamepad1.y) {
-            capstoneArmTriggerUp = true;
-        }
-        robot.capstoneArmSystem.moveCapstoneArm(capstoneArmState);
-    }
-
-    private void operateCapstoneArmTeleop(){
-        float valueRecived = gamepad2.left_stick_y;
-        float valueToSet = (float) (0.18 * (-valueRecived) + 0.61);
-        robot.capstoneArmSystem.setArmPositon(valueToSet);
-
-        if(gamepad2.right_bumper){
-            robot.capstoneArmSystem.grabCapstone();
-        }
-
-        if(gamepad2.left_bumper){
-            robot.capstoneArmSystem.ungrabCapstone();
-        }
-    }
 
 
     /**

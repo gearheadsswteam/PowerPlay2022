@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -45,48 +46,12 @@ public class GearheadsMecanumRobotRR {
     //Gyro
     public BNO055IMU imu;
 
-    //servo used to raise capstone arm
-    private Servo liftServo;
-
-    //Servo used to grab the capstone
-    private Servo grabServo;
-
-    // Motor used for the intake system
-    private DcMotor intakeMotor;
-
-    private Servo intakeServo;
-
-    //The Motor to lift the Elevator
-    private DcMotor liftElevator;
-
-    //Servo to tilt the bucket
-    private Servo tiltBucket;
-
-    private CRServo duckServo;
-
-    private Servo x;
-
-    private Servo y;
-
-    private Servo z;
-
-
-    private ColorSensor sensorColor;
-    private DistanceSensor distanceSensor;
-
-    public CapstoneArmSystem capstoneArmSystem;
-    public Intakesystem intakesystem;
-    public DeliveryArmSystem deliveryArmSystem;
-    public CarouselRotationSystem carouselRotationSystem;
-    public CargoDetector cargoDetector;
-    public OdoRetract odoRetract;
 
     private LinearOpMode curOpMode = null;   //current opmode
 
     /* local OpMode members. */
     public HardwareMap hwMap = null;
 
-    public CapstoneDetector capstoneDetector;
 
 
     /* Constructor */
@@ -145,8 +110,8 @@ public class GearheadsMecanumRobotRR {
 
         //This is based on how motors have been mounted
         fr_motor.setDirection(DcMotor.Direction.REVERSE);
-        rr_motor.setDirection(DcMotor.Direction.REVERSE);
-        fl_motor.setDirection(DcMotor.Direction.FORWARD);
+        rr_motor.setDirection(DcMotor.Direction.FORWARD);
+        fl_motor.setDirection(DcMotor.Direction.REVERSE);
         rl_motor.setDirection(DcMotor.Direction.FORWARD);// BL motor works inverted...not sure why
 
         fr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -161,90 +126,7 @@ public class GearheadsMecanumRobotRR {
 
     }
 
-    /**
-     * Initialize Capstone Arm System
-     */
-    private void initCapstoneArmSystem() {
 
-        //read hardware
-        liftServo = hwMap.servo.get("arm");
-        grabServo = hwMap.servo.get("claw");
-
-        capstoneArmSystem = new CapstoneArmSystem(liftServo, grabServo);
-
-        capstoneArmSystem.initialize();
-    }
-
-    /**
-     * Initialize Capstone Arm System
-     */
-    private void initIntakeSystem() {
-
-        //read hardware
-        intakeMotor = hwMap.dcMotor.get("intake");
-        intakeServo = hwMap.servo.get("gate");
-
-
-        intakesystem = new Intakesystem(intakeMotor, intakeServo);
-
-
-
-        intakesystem.initialize();
-
-    }
-
-    /**
-     * Initialize Capstone Arm System
-     */
-    private void initDuckRotationystem() {
-
-        //read hardware
-        duckServo = hwMap.crservo.get("spinner");
-
-        carouselRotationSystem = new CarouselRotationSystem(duckServo);
-
-        carouselRotationSystem.initialize();
-
-    }
-
-
-    private void initDeliveryArmSystem() {
-
-        liftElevator = hwMap.dcMotor.get("lift");
-        tiltBucket = hwMap.servo.get("bucket");
-
-        deliveryArmSystem = new DeliveryArmSystem (liftElevator , tiltBucket, curOpMode);
-        deliveryArmSystem.initialize();
-    }
-
-    private void initCapstoneDetector(){
-        capstoneDetector = new CapstoneDetector();
-        capstoneDetector.intitalize(curOpMode);
-    }
-
-    private void initCargoDetector(){
-        // get a reference to the color sensor.
-        distanceSensor = hwMap.get(DistanceSensor.class, "bucketSensor");
-        cargoDetector = new CargoDetector(distanceSensor);
-    }
-
-    public void initOdoRetract () {
-        x = hwMap.servo.get("x_odo");
-        y = hwMap.servo.get("y_odo");
-        z = hwMap.servo.get("z_odo");
-        odoRetract = new OdoRetract(x,y,z);
-        odoRetract.initialize();
-
-    }
-
-
-
-    /* Initialize standard Hardware interfaces */
-    public void initTeleopRR(HardwareMap ahwMap) {
-        init(ahwMap);
-        initGyro(true);
-        odoRetract.deactivateOdo();
-    }
 
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap, String teamType) {
@@ -265,13 +147,7 @@ public class GearheadsMecanumRobotRR {
         hwMap = ahwMap;
 
         initDriveMotors();
-        initCapstoneArmSystem();
-        initIntakeSystem();
-        initDuckRotationystem();
-        initDeliveryArmSystem();
-        initCargoDetector();
-        //initColorSensor();
-        initCapstoneDetector();
+
     }
 }
 
