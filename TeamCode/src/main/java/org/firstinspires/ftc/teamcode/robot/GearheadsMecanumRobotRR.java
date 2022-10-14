@@ -110,8 +110,8 @@ public class GearheadsMecanumRobotRR {
 
         //This is based on how motors have been mounted
         fr_motor.setDirection(DcMotor.Direction.REVERSE);
-        rr_motor.setDirection(DcMotor.Direction.FORWARD);
-        fl_motor.setDirection(DcMotor.Direction.REVERSE);
+        rr_motor.setDirection(DcMotor.Direction.REVERSE);
+        fl_motor.setDirection(DcMotor.Direction.FORWARD);
         rl_motor.setDirection(DcMotor.Direction.FORWARD);// BL motor works inverted...not sure why
 
         fr_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

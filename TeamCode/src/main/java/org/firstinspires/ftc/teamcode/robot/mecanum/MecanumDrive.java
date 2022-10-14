@@ -117,10 +117,10 @@ public class MecanumDrive {
     }
 
     public void doit() {
-        double fl_speed = x + y + rotation;
+        double fl_speed = x + y - rotation;
         double fr_speed = -x + y + rotation;
         double rl_speed = -x + y - rotation;
-        double rr_speed = x + y - rotation;
+        double rr_speed = x + y + rotation;
 
         double max = 1;
         max = Math.max(Math.abs(max), Math.abs(fl_speed));
