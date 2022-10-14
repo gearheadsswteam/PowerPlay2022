@@ -118,8 +118,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         double tempSidePower = gamepad1.left_stick_x;
 
         //Adjust X & Y power based on FOV
-        sidePower = tempForwardPower * Math.cos(angle) - tempSidePower * Math.sin(angle);
-        forwardPower = -tempForwardPower * Math.sin(angle) - tempSidePower * Math.cos(angle);
+        sidePower =-tempForwardPower * Math.cos(angle) - tempSidePower * Math.sin(angle);
+        forwardPower =-tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
 
         //Read turn commands
         turn = -gamepad1.right_stick_x;
