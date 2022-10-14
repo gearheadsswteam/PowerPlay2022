@@ -46,7 +46,7 @@ public class MecanumDrive {
 
     public void move(double x, double y, double rotation) {
         this.x = x;
-        this.y = -y;
+        this.y = y;
         this.rotation = rotation;
         dataString = "\nx: " + x + "\n y: " + y + "\n rot: " + rotation;
         doit();
