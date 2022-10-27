@@ -8,11 +8,14 @@ import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+import java.sql.SQLOutput;
+
 @Autonomous(name = "RedAutonomousModeRR", group = "Red")
 public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
     Pose2d initPose = new Pose2d(0,0, 0);
-    TrajectorySequence traj1;
+
+
     public RedAutonomousModeRR() {
         super.TEAM_TYPE = AbstractAutonomousOpModeRR.RED_TEAM;
     }
@@ -21,15 +24,11 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     protected void initOpModeBeforeStart() {
         super.initOpModeBeforeStart();
         mecanumDriveRR.setPoseEstimate(initPose);
-        traj1 = mecanumDriveRR.trajectorySequenceBuilder(initPose)
-                .lineTo(new Vector2d(47, 0))
-                .lineTo(new Vector2d(47, 47))
-                .lineTo(new Vector2d(0, 47))
-                .lineTo(new Vector2d(0, 0))
-                .build();
+        sleep(500);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
+
 
     @Override
     protected void initOpModeAfterStart() {
@@ -38,6 +37,12 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void executeOpMode() {
-        mecanumDriveRR.followTrajectorySequence(traj1);
+        if (signal == 1) {
+            System.out.println("Execute Case 1");
+        } else if(signal == 2) {
+            System.out.println("Execute Case 2");
+        }  else if (signal == 3) {
+            System.out.println("Execute Case 3");
+        }
     }
 }

@@ -36,6 +36,8 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
     // The autonomous driving software
     protected AutonomousMecanumMoverRR autonomousRobotMover;
 
+    protected int signal;
+
 
     /**
      * Constructor
@@ -58,6 +60,11 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
 
         mecanumDriveRR = new SampleMecanumDrive(hardwareMap);
         autonomousRobotMover = new AutonomousMecanumMoverRR(robot, this, mecanumDriveRR);
+
+        signal = robot.signalDetector.detectSignal();
+
+        telemetry.addData("Signals ", signal);
+        telemetry.update();
 
         telemetry.addData("Status", "Initialized " + TEAM_TYPE);
         telemetry.update();
@@ -94,7 +101,18 @@ public abstract class AbstractAutonomousOpModeRR extends LinearOpMode {
      * This method pause the op mode till driver presses start
      */
     private void waitForDriverAcknowledgement() {
-     //Add code here
+        // Prompt User
+        int counter = 0;
+
+        while(counter < 5) {
+            int signal = robot.signalDetector.detectSignal();
+            telemetry.addData("Signal ", signal);
+            telemetry.addData(">", "Press start");
+            telemetry.update();
+            counter++;
+            sleep(300);
+        }
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

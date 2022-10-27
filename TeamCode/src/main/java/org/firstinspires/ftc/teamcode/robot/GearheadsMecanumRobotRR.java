@@ -17,6 +17,8 @@ import org.firstinspires.ftc.teamcode.robot.actionparts.DeliveryArmSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.CarouselRotationSystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
 import org.firstinspires.ftc.teamcode.robot.actionparts.OdoRetract;
+import org.firstinspires.ftc.teamcode.vision.SignalDetector;
+import org.firstinspires.ftc.teamcode.vision.SignalDetectorPipeline;
 
 
 /**
@@ -46,6 +48,8 @@ public class GearheadsMecanumRobotRR {
     //Gyro
     public BNO055IMU imu;
 
+    public SignalDetector signalDetector;
+
 
     private LinearOpMode curOpMode = null;   //current opmode
 
@@ -60,7 +64,11 @@ public class GearheadsMecanumRobotRR {
         hwMap = opMode.hardwareMap;
     }
 
+    private void initVision () {
+        signalDetector = new SignalDetectorPipeline(curOpMode, hwMap);
+        signalDetector.initialize();
 
+    }
 
     /**
      * Initializes the Gyro
@@ -132,6 +140,7 @@ public class GearheadsMecanumRobotRR {
     public void initAutonomous(HardwareMap ahwMap, String teamType) {
         init(ahwMap);
         initGyro(true);
+        initVision();
         //odoRetract.activateOdo();
     }
 
