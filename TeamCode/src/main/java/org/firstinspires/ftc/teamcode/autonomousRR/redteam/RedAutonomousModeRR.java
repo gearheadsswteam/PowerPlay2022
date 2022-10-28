@@ -38,11 +38,17 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
     @Override
     protected void executeOpMode() {
         if (signal == 1) {
-            System.out.println("Execute Case 1");
+            telemetry.addData("Status", "Execute Case 1");
+            telemetry.update();
+            //System.out.println("Execute Case 1");
         } else if(signal == 2) {
-            System.out.println("Execute Case 2");
+            telemetry.addData("Status", "Execute Case 2");
+            telemetry.update();
+            //System.out.println("Execute Case 2");
         }  else if (signal == 3) {
-            System.out.println("Execute Case 3");
+            telemetry.addData("Status", "Execute Case 3");
+            telemetry.update();
+            //System.out.println("Execute Case 3");
         }
     }
 }
