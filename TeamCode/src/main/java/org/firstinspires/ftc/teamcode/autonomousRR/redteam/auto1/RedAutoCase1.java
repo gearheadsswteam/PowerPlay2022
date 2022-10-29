@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
+package org.firstinspires.ftc.teamcode.autonomousRR.redteam.auto1;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
+import org.firstinspires.ftc.teamcode.autonomousRR.redteam.AutoCase;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
