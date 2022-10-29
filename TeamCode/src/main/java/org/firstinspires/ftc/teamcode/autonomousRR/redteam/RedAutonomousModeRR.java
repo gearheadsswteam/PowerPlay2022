@@ -1,14 +1,9 @@
 package org.firstinspires.ftc.teamcode.autonomousRR.redteam;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomousRR.AbstractAutonomousOpModeRR;
-import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
-import java.sql.SQLOutput;
 
 @Autonomous(name = "RedAutonomousModeRR", group = "Red")
 public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
@@ -37,6 +32,7 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
 
     @Override
     protected void executeOpMode() {
+        signal = robot.signalDetector.getCaseDetected();
         if (signal == 1) {
             telemetry.addData("Status", "Execute Case 1");
             telemetry.update();

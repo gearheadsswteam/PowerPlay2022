@@ -2,23 +2,10 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.robot.actionparts.CapstoneArmSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.CapstoneDetector;
-import org.firstinspires.ftc.teamcode.robot.actionparts.CargoDetector;
-import org.firstinspires.ftc.teamcode.robot.actionparts.DeliveryArmSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.CarouselRotationSystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.Intakesystem;
-import org.firstinspires.ftc.teamcode.robot.actionparts.OdoRetract;
 import org.firstinspires.ftc.teamcode.vision.SignalDetector;
-import org.firstinspires.ftc.teamcode.vision.SignalDetectorPipeline;
 
 
 /**
@@ -50,12 +37,10 @@ public class GearheadsMecanumRobotRR {
 
     public SignalDetector signalDetector;
 
-
     private LinearOpMode curOpMode = null;   //current opmode
 
     /* local OpMode members. */
     public HardwareMap hwMap = null;
-
 
 
     /* Constructor */
@@ -64,9 +49,9 @@ public class GearheadsMecanumRobotRR {
         hwMap = opMode.hardwareMap;
     }
 
-    private void initVision () {
-        signalDetector = new SignalDetectorPipeline(curOpMode, hwMap);
-        signalDetector.initialize();
+    private void initVision() {
+        signalDetector = new SignalDetector(hwMap);
+        signalDetector.init();
 
     }
 
@@ -133,7 +118,6 @@ public class GearheadsMecanumRobotRR {
         rl_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-
 
 
     /* Initialize standard Hardware interfaces */
