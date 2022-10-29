@@ -63,7 +63,11 @@ public class SignalDetectorPipeline extends OpenCvPipeline implements SignalDete
         return caseDetected;
     }
 
+    int count = 0;
+
     public Mat processFrame(Mat input) {
+        curOpMode.telemetry.addData("process frame ", count++);
+        curOpMode.telemetry.update();
         output = input.clone();
         int[] maxColor = {0, -1};
         for (int i = 0; i < signalLower.length; i++) {
@@ -96,6 +100,7 @@ public class SignalDetectorPipeline extends OpenCvPipeline implements SignalDete
             Imgproc.putText(output, "Case: " + caseDetected, new Point(10, 350), 0, 0.5, new Scalar(255, 255, 255), 1);
         }
         output.release();
+        process.release();
         return input;
     }
 }
