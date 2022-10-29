@@ -36,19 +36,19 @@ public class RedAutonomousModeRR extends AbstractAutonomousOpModeRR {
         if (signal == 1) {
             telemetry.addData("Status", "Execute Case 1");
             telemetry.update();
-            RedAutoCase1 case1 = new RedAutoCase1();
+            RedAutoCase1 case1 = new RedAutoCase1(mecanumDriveRR);
             case1.executeDrive();
             //System.out.println("Execute Case 1");
         } else if(signal == 2) {
             telemetry.addData("Status", "Execute Case 2");
             telemetry.update();
-            RedAutoCase2 case2 = new RedAutoCase2();
+            RedAutoCase2 case2 = new RedAutoCase2(mecanumDriveRR);
             case2.executeDrive();
             //System.out.println("Execute Case 2");
         }  else if (signal == 3) {
             telemetry.addData("Status", "Execute Case 3");
             telemetry.update();
-            RedAutoCase3 case3 = new RedAutoCase3();
+            RedAutoCase3 case3 = new RedAutoCase3(mecanumDriveRR);
             case3.executeDrive();
             //System.out.println("Execute Case 3");
         }
