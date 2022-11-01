@@ -49,6 +49,8 @@ public class SignalDetectorPipeline extends OpenCvPipeline {
         } else {
             Imgproc.putText(output, "Case: " + caseDetected, new Point(10, 350), 0, 0.5, new Scalar(0, 0, 255), 1);
         }
+        output.release();
+        process.release();
         return output;
     }
     public int getCaseDetected() {

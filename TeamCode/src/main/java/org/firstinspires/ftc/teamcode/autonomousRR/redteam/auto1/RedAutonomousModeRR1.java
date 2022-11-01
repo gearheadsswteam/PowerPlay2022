@@ -33,6 +33,7 @@ public class RedAutonomousModeRR1 extends AbstractAutonomousOpModeRR {
     @Override
     protected void executeOpMode() {
         signal = robot.signalDetector.getCaseDetected();
+        signal = 1;
         if (signal == 1) {
             telemetry.addData("Status", "Execute Case 1");
             telemetry.update();
