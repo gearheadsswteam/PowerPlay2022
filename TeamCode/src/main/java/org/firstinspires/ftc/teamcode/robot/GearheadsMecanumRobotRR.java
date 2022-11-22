@@ -4,7 +4,10 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.subsystems.ConeDeliverySystem;
+import org.firstinspires.ftc.teamcode.subsystems.Intakesystem;
 import org.firstinspires.ftc.teamcode.vision.SignalDetector;
 
 
@@ -32,6 +35,8 @@ public class GearheadsMecanumRobotRR {
     public DcMotor rl_motor;
     public DcMotor rr_motor;
 
+
+
     //Gyro
     public BNO055IMU imu;
 
@@ -42,6 +47,8 @@ public class GearheadsMecanumRobotRR {
     /* local OpMode members. */
     public HardwareMap hwMap = null;
 
+    public Intakesystem intakesystem;
+    public ConeDeliverySystem coneDeliverySystem;
 
     /* Constructor */
     public GearheadsMecanumRobotRR(LinearOpMode opMode) {
@@ -119,6 +126,32 @@ public class GearheadsMecanumRobotRR {
 
     }
 
+    /**
+     * Initializes the drive train
+     */
+    private void initIntakeSubsystem() {
+
+        //DRIVING
+        DcMotor intakeL = hwMap.dcMotor.get("intakeL");
+        DcMotor intakeR = hwMap.dcMotor.get("intakeR");
+        Servo rollerServo = hwMap.servo.get("roller");
+
+
+        //This is based on how motors have been mounted
+        intakeL.setDirection(DcMotor.Direction.FORWARD);
+        intakeR.setDirection(DcMotor.Direction.REVERSE);
+
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        intakesystem = new Intakesystem(intakeL, intakeR, rollerServo);
+    }
+
+    public void initConeDeliverySystem(){
+        coneDeliverySystem = new ConeDeliverySystem(hwMap);
+        coneDeliverySystem.initialize();
+    }
+
 
     /* Initialize standard Hardware interfaces */
     public void initAutonomous(HardwareMap ahwMap, String teamType) {
@@ -133,6 +166,8 @@ public class GearheadsMecanumRobotRR {
         init(ahwMap);
         initGyro(true);
         initDriveMotors();
+        initIntakeSubsystem();
+        initConeDeliverySystem();
     }
 
     private void init(HardwareMap ahwMap) {

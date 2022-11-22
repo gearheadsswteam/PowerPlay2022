@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.robot.GearheadsMecanumRobotRR;
 import org.firstinspires.ftc.teamcode.robot.mecanum.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.ValueStorage;
+import org.firstinspires.ftc.teamcode.subsystems.ConeDeliverySystem;
+import org.firstinspires.ftc.teamcode.subsystems.Intakesystem;
 
 
 @TeleOp(name = "TeleOpTwoDriver", group = "TeleOp")
@@ -22,6 +24,8 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
 
     /* Declare OpMode members. */
     private GearheadsMecanumRobotRR robot;   // Use gearheads robot hardware
+    private Intakesystem intakesystem;
+    private ConeDeliverySystem coneDeliverySystem;
 
 
     private MecanumDrive mecanum;
@@ -39,6 +43,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
      * Constructor
      */
     public TeleOpMecanumOpMode() {
+
         robot = new GearheadsMecanumRobotRR(this);
     }
 
@@ -57,9 +62,14 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
             //Move The robot
             moveRobot();
 
+            operateRoller();
         }
     }
 
+    public void operateRoller(){
+        intakesystem.setRollerUp();
+        intakesystem.startInTake();
+    }
 
     /**
      * Initialize the opmode
@@ -79,6 +89,9 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.initTeleOp(hardwareMap);
+        intakesystem = robot.intakesystem;
+        coneDeliverySystem = robot.coneDeliverySystem;
+
 
 
         gyro = robot.imu;
@@ -122,7 +135,7 @@ public class TeleOpMecanumOpMode extends LinearOpMode {
         forwardPower =-tempForwardPower * Math.sin(angle) + tempSidePower * Math.cos(angle);
 
         //Read turn commands
-        turn = -gamepad1.right_stick_x;
+        turn = gamepad1.right_stick_x;
     }
 
     /**
